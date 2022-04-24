@@ -1,4 +1,5 @@
 const CONSONANTS: &str = "bcdfghjklmnpqrstvwxz";
+const VOWELS: &str = "aeiouy";
 
 fn get_lower_case_char(c: char) -> char {
     let lower_case = c.to_lowercase().next();
@@ -20,10 +21,18 @@ fn is_consonant(c: char) -> bool {
     CONSONANTS.contains(get_lower_case_char(c))
 }
 
-const VOWELS: &str = "aeiouy";
-
 fn is_vowel(c: char) -> bool {
     VOWELS.contains(get_lower_case_char(c))
+}
+
+fn finalize_pig_latin_word(word: &mut String, first_character: char) {
+    if is_consonant(first_character) {
+        word.push('-');
+        word.push(first_character);
+        word.push_str("ay");
+    } else {
+        word.push_str("-hay");
+    }
 }
 
 fn get_pig_latin_word(word: &str) -> String {
@@ -49,13 +58,7 @@ fn get_pig_latin_word(word: &str) -> String {
         }
     }
     if let Some(first_character) = first_character {
-        if is_consonant(first_character) {
-            output.push('-');
-            output.push(first_character);
-            output.push_str("ay");
-        } else {
-            output.push_str("-hay");
-        }
+        finalize_pig_latin_word(&mut output, first_character);
     }
     return output;
 }
@@ -77,5 +80,6 @@ pub fn get_pig_latin_sentence(source: &str) -> String {
             current_word = String::new();
         }
     };
+    flush_word(&mut output, &current_word);
     return output;
 }
