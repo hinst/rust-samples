@@ -9,12 +9,16 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn from_args(args: &[String]) -> Result<Config, String> {
-        if args.len() <= 2 {
-            return Err(String::from("Not enough arguments. Need two arguments"));
-        }
-        let query = args[1].clone();
-        let file_name = args[2].clone();
+    pub fn from_args(mut args: env::Args) -> Result<Config, String> {
+        args.next();
+        let query = match args.next() {
+            Some(query) => query,
+            None => return Err(String::from("Query string is missing from the argument list")),
+        };
+        let file_name = match args.next() {
+            Some(file_name) => file_name,
+            None => return Err(String::from("File name is missing from the argument list")),
+        };
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
         let config = Config {
             query,
