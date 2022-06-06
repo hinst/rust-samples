@@ -3,10 +3,7 @@ use std::time::Duration;
 
 fn main() {
     println!("STARTING...");
-    let x = 4;
-    let equal_to_x = move |z| z == x;
-    let y = 4;
-    assert!(equal_to_x(y));
+    iterate_counter();
 }
 
 struct Cacher<T> where T: Fn(u32) -> u32 {
@@ -46,5 +43,50 @@ fn generate_workout(intensity: u32, random_number: u32) {
         } else {
             println!("Today, run for {} minutes", cacher.get_value(intensity));
         }
+    }
+}
+
+fn iterate() {
+    let vector: Vec<i32> = vec![1, 2, 3];
+    let iterator = vector.iter();
+    let sum: i32 = iterator.sum();
+    println!("sum: {}", sum);
+}
+
+fn iterate2() {
+    let vector: Vec<i32> = vec![1, 2, 3];
+    let vector2: Vec<i32> = vector.iter().map(|x| x + 1).collect();
+    println!("{:?}", vector2);
+}
+
+struct Counter {
+    current: usize,
+    limit: usize,
+}
+
+impl Counter {
+    fn new(limit: usize) -> Counter {
+        return Counter { current: 0, limit };
+    }
+}
+
+impl Iterator for Counter {
+    type Item = usize;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.current < self.limit {
+            let current = self.current;
+            self.current += 1;
+            return Some(current);
+        } else {
+            return None;
+        }
+    }
+}
+
+fn iterate_counter() {
+    let counter = Counter::new(10);
+    for item in counter {
+        println!("counter {}", item);
     }
 }
