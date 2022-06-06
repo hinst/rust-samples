@@ -43,13 +43,10 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 fn search(content: &str, query: &str) -> Vec<String> {
-    let mut results: Vec<String> = Vec::new();
-    for line in content.lines() {
-        if line.contains(query) {
-            results.push(String::from(line));
-        }
-    }
-    return results;
+    return content.lines()
+        .filter(|line| line.contains(query))
+        .map(|line| String::from(line))
+        .collect();
 }
 
 fn search_case_insensitive(content: &str, query: &str) -> Vec<String> {
