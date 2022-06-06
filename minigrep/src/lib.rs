@@ -23,7 +23,10 @@ impl Config {
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let file_content = fs::read_to_string(config.file_name.as_str())?;
-    println!("{}", file_content);
+    let results = search(file_content.as_str(), config.query.as_str());
+    for line in results {
+        println!("{}", line);
+    }
     return Ok(());
 }
 
