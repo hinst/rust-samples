@@ -1,21 +1,21 @@
 use rand::Rng;
 
-struct Rectangle {
+pub struct Rectangle {
     width: usize,
     height: usize,
 }
 
 impl Rectangle {
 
-    fn can_hold(&self, rectangle: &Rectangle) -> bool {
+    pub fn can_hold(&self, rectangle: &Rectangle) -> bool {
         return rectangle.width < self.width && rectangle.height < self.height;
     }
 
-    fn get_area(&self) -> usize {
+    pub fn get_area(&self) -> usize {
         return self.width * self.height
     }
 
-    fn create_random(size_limit: usize) -> Rectangle {
+    pub fn create_random(size_limit: usize) -> Rectangle {
         let mut random = rand::thread_rng();
         return Rectangle {
             width: random.gen_range(0..size_limit),
@@ -88,6 +88,6 @@ mod tests {
     #[test]
     #[should_panic(expected = "cannot sample empty range")]
     fn rectangle_create_random() {
-        let rectangle = Rectangle::create_random(0);
+        Rectangle::create_random(0);
     }
 }
