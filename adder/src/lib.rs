@@ -1,15 +1,26 @@
+use rand::Rng;
+
 struct Rectangle {
     width: usize,
     height: usize,
 }
 
 impl Rectangle {
+
     fn can_hold(&self, rectangle: &Rectangle) -> bool {
         return rectangle.width < self.width && rectangle.height < self.height;
     }
 
     fn get_area(&self) -> usize {
         return self.width * self.height
+    }
+
+    fn create_random(size_limit: usize) -> Rectangle {
+        let mut random = rand::thread_rng();
+        return Rectangle {
+            width: random.gen_range(0..size_limit),
+            height: random.gen_range(0..size_limit),
+        };
     }
 }
 
@@ -72,5 +83,11 @@ mod tests {
         let string = rectangle.to_string();
         assert!(string.contains("15"), "Expecting 15 in \"{}\"", string);
         assert!(string.contains("4"), "Expecting 4 in \"{}\"", string);
+    }
+
+    #[test]
+    #[should_panic] // Because limit=0 is not possible
+    fn rectangle_create_random() {
+        let rectangle = Rectangle::create_random(0);
     }
 }
