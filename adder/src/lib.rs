@@ -13,6 +13,17 @@ impl Rectangle {
     }
 }
 
+impl ToString for Rectangle {
+    fn to_string(&self) -> String {
+        let mut text = String::from("[");
+        text.push_str(self.width.to_string().as_str());
+        text.push(' ');
+        text.push_str(self.height.to_string().as_str());
+        text.push(']');
+        return text;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -50,5 +61,16 @@ mod tests {
             height: 3
         };
         assert_eq!(4 * 3, rectangle.get_area())
+    }
+
+    #[test]
+    fn rectangle_to_string() {
+        let rectangle = Rectangle {
+            width: 15,
+            height: 4
+        };
+        let string = rectangle.to_string();
+        assert!(string.contains("15"), "Expecting 15 in \"{}\"", string);
+        assert!(string.contains("4"), "Expecting 4 in \"{}\"", string);
     }
 }
