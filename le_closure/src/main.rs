@@ -3,7 +3,10 @@ use std::time::Duration;
 
 fn main() {
     println!("STARTING...");
-    generate_workout(24, 4);
+    let x = 4;
+    let equal_to_x = move |z| z == x;
+    let y = 4;
+    assert!(equal_to_x(y));
 }
 
 struct Cacher<T> where T: Fn(u32) -> u32 {
