@@ -86,7 +86,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic] // Because limit=0 is not possible
+    #[should_panic(expected = "cannot sample empty range")]
     fn rectangle_create_random() {
         let rectangle = Rectangle::create_random(0);
     }
