@@ -6,7 +6,6 @@ pub struct Rectangle {
 }
 
 impl Rectangle {
-
     pub fn can_hold(&self, rectangle: &Rectangle) -> bool {
         return rectangle.width < self.width && rectangle.height < self.height;
     }
@@ -21,6 +20,26 @@ impl Rectangle {
             width: random.gen_range(0..size_limit),
             height: random.gen_range(0..size_limit),
         };
+    }
+
+    pub fn get_double(&self) -> Result<Rectangle, String> {
+        let new_width = self.width.checked_add(self.width);
+        let new_height = self.height.checked_add(self.height);
+        match new_width {
+            Some(new_width) => {
+                match new_height {
+                    Some(new_height) => {
+                        return Ok(Rectangle{ width: new_width, height: new_height })
+                    },
+                    None => {
+                        return Err(format!("Height overflowed from {}", self.height))
+                    }
+                }
+            },
+            None => {
+                return Err(format!("Width overflowed from {}", self.width))
+            }
+        }
     }
 }
 
@@ -89,5 +108,29 @@ mod tests {
     #[should_panic(expected = "cannot sample empty range")]
     fn rectangle_create_random() {
         Rectangle::create_random(0);
+    }
+
+    #[test]
+    #[ignore]
+    fn rectangle_get_double() -> Result<(), String> {
+        let rectangle = Rectangle {
+            width: 128,
+            height: 128,
+        };
+        let double_rectangle = rectangle.get_double();
+        match double_rectangle {
+            Ok(_) => return Ok(()),
+            Err(message) => return Err(message)
+        }
+    }
+
+    #[test]
+    fn rectangle_get_double_too_large() {
+        let rectangle = Rectangle {
+            width: 18446744073709551613,
+            height: 18446744073709551614,
+        };
+        let double_rectangle = rectangle.get_double();
+        assert!(double_rectangle.is_err())
     }
 }
