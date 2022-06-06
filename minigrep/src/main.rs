@@ -1,4 +1,5 @@
 use std::env;
+use std::error::Error;
 use std::fs;
 use std::process;
 
@@ -8,10 +9,11 @@ fn main() {
         println!("Unable to read arguments: {}", err);
         process::exit(1);
     });
-    println!("Search for {} in file {}", config.query, config.file_name);
-    let file_content = fs::read_to_string(config.file_name.as_str())
-        .expect(format!("Read file {}", config.file_name).as_str());
-    println!("{}", file_content);
+    println!("Task: search for {} in file {}", config.query, config.file_name);
+    if let Err(e) = run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
 }
 
 struct Config {
@@ -21,8 +23,8 @@ struct Config {
 
 impl Config {
     fn from_args(args: &[String]) -> Result<Config, String> {
-        if args.len() < 3 {
-            return Err(String::from("Not enough arguments"));
+        if args.len() <= 2 {
+            return Err(String::from("Not enough arguments. Need two arguments"));
         }
         let query = args[1].clone();
         let file_name = args[2].clone();
@@ -32,4 +34,10 @@ impl Config {
         };
         return Ok(config);
     }
+}
+
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let file_content = fs::read_to_string(config.file_name.as_str())?;
+    println!("{}", file_content);
+    return Ok(());
 }
