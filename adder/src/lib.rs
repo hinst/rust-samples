@@ -6,6 +6,10 @@ pub struct Rectangle {
 }
 
 impl Rectangle {
+    pub fn new(width: usize, height: usize) -> Rectangle {
+        return Rectangle { width, height };
+    }
+
     pub fn can_hold(&self, rectangle: &Rectangle) -> bool {
         return rectangle.width < self.width && rectangle.height < self.height;
     }
