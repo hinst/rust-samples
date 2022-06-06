@@ -26,3 +26,28 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("{}", file_content);
     return Ok(());
 }
+
+fn search(content: &str, query: &str) -> Vec<String> {
+    let mut results: Vec<String> = Vec::new();
+    for line in content.lines() {
+        if line.contains(query) {
+            results.push(String::from(line));
+        }
+    }
+    return results;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn find_one() {
+        let query = "duct";
+        let content = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+        assert_eq!(vec!["safe, fast, productive."], search(content, query));
+    }
+}
