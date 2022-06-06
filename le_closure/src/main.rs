@@ -85,8 +85,13 @@ impl Iterator for Counter {
 }
 
 fn iterate_counter() {
-    let counter = Counter::new(10);
+    let counter = Counter::new(5);
     for item in counter {
         println!("counter {}", item);
     }
+
+    let counter2 = Counter::new(5);
+    let counter3 = Counter::new(6).skip(1);
+    let counters: Vec<_> = counter2.zip(counter3).collect();
+    println!("counters {:?}", counters);
 }
