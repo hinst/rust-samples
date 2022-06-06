@@ -7,6 +7,10 @@ impl Rectangle {
     fn can_hold(&self, rectangle: &Rectangle) -> bool {
         return rectangle.width < self.width && rectangle.height < self.height;
     }
+
+    fn get_area(&self) -> usize {
+        return self.width * self.height
+    }
 }
 
 #[cfg(test)]
@@ -37,5 +41,14 @@ mod tests {
             height: 10,
         };
         assert!(!small_rectangle.can_hold(&large_rectangle));
+    }
+
+    #[test]
+    fn rectangle_get_area() {
+        let rectangle = Rectangle {
+            width: 4,
+            height: 3
+        };
+        assert_eq!(4 * 3, rectangle.get_area())
     }
 }
