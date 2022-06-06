@@ -9,7 +9,6 @@ fn main() {
         eprintln!("Unable to read arguments: {}", err);
         process::exit(1);
     });
-    println!("Task: search for {} in file {}", config.query, config.file_name);
     if let Err(e) = run(config) {
         eprintln!("Application error: {}", e);
         process::exit(1);
