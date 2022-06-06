@@ -6,12 +6,12 @@ use minigrep::*;
 fn main() {
     let args: Vec<String> = env::args().collect();
     let config = Config::from_args(&args).unwrap_or_else(|err| {
-        println!("Unable to read arguments: {}", err);
+        eprintln!("Unable to read arguments: {}", err);
         process::exit(1);
     });
     println!("Task: search for {} in file {}", config.query, config.file_name);
     if let Err(e) = run(config) {
-        println!("Application error: {}", e);
+        eprintln!("Application error: {}", e);
         process::exit(1);
     }
 }
